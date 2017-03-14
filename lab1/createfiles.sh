@@ -1,3 +1,4 @@
+#!/bin/bash
 path=$1;
 filenames=$2;
 while read -r line

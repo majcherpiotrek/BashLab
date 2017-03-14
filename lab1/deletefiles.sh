@@ -1,3 +1,4 @@
+#!/bin/bash
 path=$1"/*";
 for filename in $path; do
 	if [[ ! -x "$filename" ]]
