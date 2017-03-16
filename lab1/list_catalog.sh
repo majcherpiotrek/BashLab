@@ -1,16 +1,18 @@
 #!/bin/bash
 list(){
 	temp=$1"/*";
+	level=$2;
 	for item in $temp;
 	do
 		if [[ -f $item ]]
 		then
 			filename=$(basename $item);
-			echo "$filename";
+			echo "$filename level $level";
 		else
-			if [[ -d $item ]]
+			if [[ -d $item && $level -le 2 ]]
 			then
-			list $item;
+			
+			list $item $(( $level+1 ));
 			fi
 		fi
 	done;
@@ -24,6 +26,6 @@ then
 	exit 1;
 fi;
 
-list $dir;
+list $dir 0;
 
 exit 0;
