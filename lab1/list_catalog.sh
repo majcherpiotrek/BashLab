@@ -1,21 +1,27 @@
 #!/bin/bash
 list(){
-	temp=$1"/*";
-	level=$2;
-	for item in $temp;
-	do
-		if [[ -f $item ]]
-		then
-			filename=$(basename $item);
-			echo "$filename level $level";
-		else
-			if [[ -d $item && $level -le 2 ]]
+	directory=$1;
+	template=$1"/*";
+	lvl=$2;
+	prefix=$3;
+	if [[ $lvl -le 2 ]]
+	then
+		for item in $template;
+		do
+			if [[ -d $item ]]
 			then
-			
-			list $item $(( $level+1 ));
+				lvl=$(($lvl + 1));
+				echo "Wchodze do rekursji $lvl!";
+				base=`basename "$item"`;
+				$nextprefix="$prefix$base";
+				list $item $lvl "$nextprefix";
+				lvl=$(($lvl - 1));		
+			else
+				name=`basename "$item"`;
+				echo "$prefix$name" "rec $lvl";
 			fi
-		fi
-	done;
+		done
+	fi
 }
 
 dir=$1;
@@ -26,6 +32,4 @@ then
 	exit 1;
 fi;
 
-list $dir 0;
-
-exit 0;
+list $dir 0 "";
